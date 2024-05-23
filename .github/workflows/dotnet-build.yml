@@ -41,4 +41,3 @@ jobs:
         with:
           BRANCH: gh-pages
           FOLDER: dist/Web/wwwroot
-
