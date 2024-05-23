@@ -1,4 +1,4 @@
-name: .NET Build and Deploy
+name: .NET Build
 
 on:
   pull_request:
@@ -41,3 +41,4 @@ jobs:
         with:
           BRANCH: gh-pages
           FOLDER: dist/Web/wwwroot
+
