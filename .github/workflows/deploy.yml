@@ -1,14 +1,11 @@
 name: Deployment
 
 on:
-  workflow_run:
-    workflows: [".NET Build"]
-    types: ["completed"]
+  merge:
     branches: [ "main" ]
 
 jobs:
   deploy:
-    if: ${{ github.event_name == 'push' && github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
