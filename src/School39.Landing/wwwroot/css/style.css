@@ -587,7 +587,7 @@ h6 {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 10px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.331);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.142);
 }
 .service-item img
 {
