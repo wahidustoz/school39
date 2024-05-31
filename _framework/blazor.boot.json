@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "School39.Landing",
   "resources": {
-    "hash": "sha256-WaODABnpKgOrSBfJuwDSJWyeZt+8gO/Yk7ppN8W0rnQ=",
+    "hash": "sha256-RRTH8oOEPfcOffYTs14OEhcsj6qAeakNj0FtA0Y0rtU=",
     "jsModuleNative": {
       "dotnet.native.8.0.6.mbpkbrqbrb.js": "sha256-oXccQn9rICGrmJCU3+W/8JiZeUiNSyNwKlDJJuHaJHs="
     },
@@ -31,7 +31,7 @@
       "Microsoft.Extensions.Primitives.wasm": "sha256-6187ynEahDlSLMBvD4vAmiLpZ3clRb5xu6rM7O8AxNo=",
       "Microsoft.JSInterop.wasm": "sha256-Bn0+3HZM43HzpL74LGkNAxaCesPtprqqtf90S28SGCA=",
       "Microsoft.JSInterop.WebAssembly.wasm": "sha256-Kr13V+6zGL8rPvFmuBAsaEJfoMlR4Q8keJHKaVGVbGA=",
-      "School39.Landing.wasm": "sha256-vrHLxEpCzAhV/B+WJVHMXiahbsI8nJblXMUOlGDHlGc=",
+      "School39.Landing.wasm": "sha256-UKIsQk5JYlGAhDQDXjzBEIIKPJk8iI15sP5/2SGuXqM=",
       "System.Collections.Concurrent.wasm": "sha256-fy0jPil7fHjM/n+HnradCf8JgNeiz1wDaZ1W5e+U4II=",
       "System.Collections.wasm": "sha256-L3XxBH2Rpx9ai34lZLoIdBFr2ufhD4eenj4I8gkbhto=",
       "System.ComponentModel.wasm": "sha256-tqO2Y4mD7n9rI1g+QSashz42lb50djXmx3ECzGEqbcY=",
