@@ -1035,7 +1035,7 @@ section {
 /*--------------------------------------------------------------
 # Testimonials
 --------------------------------------------------------------*/
-.testimonials {
+/* .testimonials {
   padding: 80px 0;
   background: url("../img/testimonials-bg.jpg") no-repeat;
   background-position: center center;
@@ -1132,7 +1132,7 @@ section {
   .testimonials .testimonial-item p {
     width: 80%;
   }
-}
+} */
 
 /*--------------------------------------------------------------
 # Portfolio
