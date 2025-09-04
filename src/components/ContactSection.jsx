@@ -101,6 +101,7 @@ function ContactSection() {
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
                       Dushanba - Shanba: 08:00 - 17:00<br />
+                      Shanba: 08:00 - 13:00<br />
                       Yakshanba: Dam olish kuni
                     </Typography>
                   </Box>
@@ -126,7 +127,7 @@ function ContactSection() {
                 }}
               >
                 <iframe
-                  src="https://yandex.uz/maps/?ll=71.869186%2C41.036857&mode=poi&poi%5Bpoint%5D=71.865259%2C41.036921&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D141776206354&utm_source=share&z=16.2"
+                  src="https://maps.app.goo.gl/6BwZ734A1H8FLozL6"
                   width="100%"
                   height="100%"
                   frameBorder="0"
@@ -140,7 +141,7 @@ function ContactSection() {
                 color="text.secondary" 
                 sx={{ mt: 2, textAlign: 'center' }}
               >
-                Maktabimiz Uychi shahri markazida joylashgan bo'lib, 
+                Maktabimiz Toshkent shahri markazida joylashgan bo'lib, 
                 transport vositalari bilan qulay yetib borish mumkin.
               </Typography>
             </Paper>
