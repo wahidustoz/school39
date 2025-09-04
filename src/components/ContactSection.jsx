@@ -1,7 +1,7 @@
-import { 
-  Box, 
-  Typography, 
-  Grid, 
+import {
+  Box,
+  Typography,
+  Grid,
   Container,
   Paper,
   Link,
@@ -18,23 +18,23 @@ function ContactSection() {
   return (
     <Box sx={{ py: 6, bgcolor: 'background.default' }}>
       <Container maxWidth="lg">
-        <Typography 
-          variant="h2" 
-          component="h2" 
-          textAlign="center" 
+        <Typography
+          variant="h2"
+          component="h2"
+          textAlign="center"
           gutterBottom
           sx={{ mb: 6, color: 'primary.main' }}
         >
           Biz bilan bog'laning
         </Typography>
-        
+
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
             <Paper elevation={2} sx={{ p: 4, height: '100%' }}>
               <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
                 Aloqa ma'lumotlari
               </Typography>
-              
+
               <Box sx={{ mb: 3 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <LocationOn color="primary" sx={{ mr: 2 }} />
@@ -59,8 +59,8 @@ function ContactSection() {
                     <Typography variant="h6" gutterBottom>
                       Telefon
                     </Typography>
-                    <Link 
-                      href="tel:+998712345678" 
+                    <Link
+                      href="tel:+998712345678"
                       variant="body1"
                       sx={{ textDecoration: 'none', color: 'primary.main' }}
                     >
@@ -79,8 +79,8 @@ function ContactSection() {
                     <Typography variant="h6" gutterBottom>
                       Email
                     </Typography>
-                    <Link 
-                      href="mailto:info@school39.uz" 
+                    <Link
+                      href="mailto:info@school39.uz"
                       variant="body1"
                       sx={{ textDecoration: 'none', color: 'primary.main' }}
                     >
@@ -101,7 +101,6 @@ function ContactSection() {
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
                       Dushanba - Shanba: 08:00 - 17:00<br />
-                      Shanba: 08:00 - 13:00<br />
                       Yakshanba: Dam olish kuni
                     </Typography>
                   </Box>
@@ -109,16 +108,16 @@ function ContactSection() {
               </Box>
             </Paper>
           </Grid>
-          
+
           <Grid item xs={12} md={6}>
             <Paper elevation={2} sx={{ p: 4, height: '100%' }}>
               <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
                 Maktab joylashuvi
               </Typography>
-              <Box 
-                sx={{ 
-                  width: '100%', 
-                  height: 400, 
+              <Box
+                sx={{
+                  width: '100%',
+                  height: 400,
                   borderRadius: 2,
                   overflow: 'hidden',
                   border: '1px solid',
@@ -126,21 +125,22 @@ function ContactSection() {
                 }}
               >
                 <iframe
-                  src="https://maps.app.goo.gl/6BwZ734A1H8FLozL6"
+                  src="https://yandex.com/map-widget/v1/-/CLQqJ6pk" // Map Constructor iframe link
                   width="100%"
-                  height="100%"
+                  height="450"
                   frameBorder="0"
                   title="Maktab joylashuvi"
                   style={{ border: 'none' }}
-                />
+                ></iframe>
+
               </Box>
-              
-              <Typography 
-                variant="body2" 
-                color="text.secondary" 
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
                 sx={{ mt: 2, textAlign: 'center' }}
               >
-                Maktabimiz Toshkent shahri markazida joylashgan bo'lib, 
+                Maktabimiz Uychi tumani markazida joylashgan bo'lib,
                 transport vositalari bilan qulay yetib borish mumkin.
               </Typography>
             </Paper>
