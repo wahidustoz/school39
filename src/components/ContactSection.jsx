@@ -43,8 +43,8 @@ function ContactSection() {
                       Manzil
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
-                      Toshkent shahar, Chilonzor tumani,<br />
-                      Bunyodkor ko'chasi, 15-uy
+                      Namangan viloyati, Uychi tumani,<br />
+                      Amir Temur ko'chasi, 15-uy
                     </Typography>
                   </Box>
                 </Box>
@@ -64,7 +64,7 @@ function ContactSection() {
                       variant="body1"
                       sx={{ textDecoration: 'none', color: 'primary.main' }}
                     >
-                      +998 71 234 56 78
+                      +998 94 635 73 33
                     </Link>
                   </Box>
                 </Box>
@@ -100,8 +100,7 @@ function ContactSection() {
                       Ish vaqti
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
-                      Dushanba - Juma: 08:00 - 17:00<br />
-                      Shanba: 08:00 - 13:00<br />
+                      Dushanba - Shanba: 08:00 - 17:00<br />
                       Yakshanba: Dam olish kuni
                     </Typography>
                   </Box>
@@ -127,7 +126,7 @@ function ContactSection() {
                 }}
               >
                 <iframe
-                  src="https://yandex.uz/map-widget/v1/?um=constructor%3A1234567890abcdef&source=constructor"
+                  src="https://yandex.uz/maps/?ll=71.869186%2C41.036857&mode=poi&poi%5Bpoint%5D=71.865259%2C41.036921&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D141776206354&utm_source=share&z=16.2"
                   width="100%"
                   height="100%"
                   frameBorder="0"
@@ -141,7 +140,7 @@ function ContactSection() {
                 color="text.secondary" 
                 sx={{ mt: 2, textAlign: 'center' }}
               >
-                Maktabimiz Toshkent shahri markazida joylashgan bo'lib, 
+                Maktabimiz Uychi shahri markazida joylashgan bo'lib, 
                 transport vositalari bilan qulay yetib borish mumkin.
               </Typography>
             </Paper>
