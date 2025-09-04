@@ -115,7 +115,6 @@ function ContactSection() {
               <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
                 Maktab joylashuvi
               </Typography>
-              
               <Box 
                 sx={{ 
                   width: '100%', 
