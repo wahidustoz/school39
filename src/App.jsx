@@ -9,10 +9,12 @@ import ContactSection from './components/ContactSection';
 import PostRenderer from './components/PostRenderer';
 
 function App() {
+  const basename = import.meta.env.PROD ? '/school39' : '';
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
+      <Router basename={basename}>
         <Routes>
           <Route path="/" element={
             <Box>
