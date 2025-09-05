@@ -10,12 +10,20 @@ const postsDir = path.join(__dirname, '../public/posts');
 const postsJsonPath = path.join(postsDir, 'posts.json');
 
 // Function to extract metadata from markdown file
-function extractMetadata(markdownContent) {
+function extractMetadata(markdownContent, filePath) {
   const lines = markdownContent.split('\n');
   let title = '';
   let description = '';
   let date = new Date().toISOString().split('T')[0]; // Default to today
   let thumbnail = '';
+
+  // Try to get file creation date
+  try {
+    const stats = fs.statSync(filePath);
+    date = stats.birthtime.toISOString().split('T')[0];
+  } catch (error) {
+    console.warn(`Could not get file stats for ${filePath}:`, error.message);
+  }
 
   // Extract title from first # heading
   for (const line of lines) {
@@ -74,10 +82,14 @@ function generatePostsJson() {
       const filePath = path.join(postsDir, file);
       const content = fs.readFileSync(filePath, 'utf8');
       
-      const metadata = extractMetadata(content);
+      const metadata = extractMetadata(content, filePath);
       
-      // Check if thumbnail exists
+      // Check if thumbnail exists - prioritize post-specific images
       const possibleThumbnails = [
+        `/posts/${slug}/images/header.jpg`,
+        `/posts/${slug}/images/header.png`,
+        `/posts/${slug}/images/header.jpeg`,
+        `/posts/${slug}/images/header.webp`,
         `/img/${slug}.jpg`,
         `/img/${slug}.png`,
         `/img/${slug}.jpeg`,
