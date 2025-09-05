@@ -23,7 +23,7 @@ Yangi laboratoriyada quyidagi imkoniyatlar mavjud:
 
 Marosimda maktab direktori, o'qituvchilar va o'quvchilar ishtirok etdi. Birinchi tajriba 9-sinf o'quvchilari tomonidan namoyish etildi.
 
-![Laboratoriya ichki ko'rinishi](./images/laboratoriya-ichki.png)
+![Laboratoriya ichki ko'rinishi](images/laboratoriya-ichki.png)
 
 ## Kelajak rejalari
 
@@ -40,6 +40,6 @@ Bu laboratoriya maktabimizning ta'lim sifatini yangi bosqichga olib chiqishga yo
 
 Zamonaviy laboratoriyaning ochilishi maktabimiz hayotida muhim voqea hisoblanadi. Bu nafaqat o'quvchilar uchun, balki butun maktab jamoasi uchun katta yutuq.
 
-![O'quvchilar tajriba paytida](./images/oquvchilar-tajriba.png)
+![O'quvchilar tajriba paytida](images/oquvchilar-tajriba.png)
 
 Laboratoriyadan foydalanish uchun maxsus jadval tuzilgan bo'lib, barcha sinflar navbat bilan tajribalar o'tkazishlari mumkin.
