@@ -39,7 +39,8 @@ function PostRenderer() {
         
         // Fetch posts metadata
         console.log(`🌐 Post "${slug}" metadata loaded from server`);
-        const postsResponse = await fetch('/posts/posts.json');
+        const basePath = import.meta.env.PROD ? '/school39' : '';
+        const postsResponse = await fetch(`${basePath}/posts/posts.json`);
         if (!postsResponse.ok) {
           throw new Error('Failed to fetch posts metadata');
         }
@@ -58,7 +59,7 @@ function PostRenderer() {
         
         // Fetch markdown content
         console.log(`🌐 Post "${slug}" content loaded from server`);
-        const contentResponse = await fetch(`/posts/${slug}.md`);
+        const contentResponse = await fetch(`${basePath}/posts/${slug}.md`);
         if (!contentResponse.ok) {
           setError('Post kontenti topilmadi');
           return;

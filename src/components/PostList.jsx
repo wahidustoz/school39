@@ -37,7 +37,8 @@ function PostList() {
         
         // If not in cache, fetch from server
         console.log('🌐 Posts loaded from server');
-        const response = await fetch('/posts/posts.json');
+        const basePath = import.meta.env.PROD ? '/school39' : '';
+        const response = await fetch(`${basePath}/posts/posts.json`);
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
