@@ -1,4 +1,4 @@
-import { writeFileSync, readdirSync, existsSync } from 'fs'
+import { writeFileSync, readdirSync, existsSync, mkdirSync } from 'fs'
 import { resolve } from 'path'
 
 // 1) configure your static routes here:
@@ -52,8 +52,10 @@ const xml = [
   '</urlset>'
 ].join('\n')
 
-// 6) write to your `dist` folder
-const outPath = resolve(process.cwd(), 'dist', 'sitemap.xml')
+// 6) write to your `dist` folder (ensure folder exists)
+const outDir = resolve(process.cwd(), 'dist')
+mkdirSync(outDir, { recursive: true })
+const outPath = resolve(outDir, 'sitemap.xml')
 writeFileSync(outPath, xml, 'utf8')
 console.log(`✔︎ sitemap.xml generated at ${outPath}`)
 
