@@ -18,20 +18,20 @@
     "title": "Maktab tadbiri bo'lib o'tdi",
     "description": "Bu hafta maktabimizda katta tadbir bo'lib o'tdi. Barcha o'quvchilar va o'qituvchilar ishtirok etdi.",
     "date": "2025-09-05",
-    "thumbnail": "/img/jamoaviy_tadbir.png"
+    "thumbnail": "/img/default-post.jpg"
   },
   {
-    "slug": "Yangi-kutubxona",   
+    "slug": "Yangi-kutubxona",
     "title": "Yangi kutubxona ochildi",
     "description": "Maktabimizda yangi, zamonaviy kutubxona ochildi. Bu kutubxona o'quvchilar uchun keng imkoniyatlar yaratadi.",
     "date": "2025-09-05",
-    "thumbnail": "/img/Yoshlar_qonun2.png"
+    "thumbnail": "/img/default-post.jpg"
   },
   {
     "slug": "Yangi-sport-maydoni",
     "title": "Yangi sport maydoni ochildi",
     "description": "Maktabimizda yangi, zamonaviy sport maydoni ochildi. Bu maydon o'quvchilar uchun yaxshi sharoit yaratadi.",
     "date": "2025-09-05",
-    "thumbnail": "/img/Hovli.png"
+    "thumbnail": "/img/default-post.jpg"
   }
 ]
