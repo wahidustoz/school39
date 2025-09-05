@@ -30,7 +30,9 @@ function PostList() {
         
         if (cachedPosts) {
           console.log('📦 Posts loaded from local storage');
-          setPosts(cachedPosts);
+          // Ensure cached posts are also sorted by date (newest first)
+          const sortedCachedPosts = cachedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+          setPosts(sortedCachedPosts);
           setLoading(false);
           return;
         }
@@ -43,11 +45,13 @@ function PostList() {
         }
         
         const data = await response.json();
-        // Add base path to image URLs in production
-        const postsWithFixedImages = data.map(post => ({
-          ...post,
-          thumbnail: getImageUrl(post.thumbnail)
-        }));
+        // Sort posts by date (newest first) and add base path to image URLs
+        const postsWithFixedImages = data
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort newest first
+          .map(post => ({
+            ...post,
+            thumbnail: getImageUrl(post.thumbnail)
+          }));
         setPosts(postsWithFixedImages);
         
         // Save to cache
@@ -66,11 +70,16 @@ function PostList() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('uz-UZ', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    const months = [
+      'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
+      'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'
+    ];
+    
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month}, ${year}`;
   };
 
   const handleScroll = (direction) => {

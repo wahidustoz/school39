@@ -96,11 +96,16 @@ function PostRenderer() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('uz-UZ', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    const months = [
+      'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
+      'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'
+    ];
+    
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month}, ${year}`;
   };
 
   if (loading) {
