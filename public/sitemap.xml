@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+      <loc>https://school39.vercel.app/</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/about</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/contact</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/posts/Bitiruv-marosimi-2025</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/posts/Informatika-darslari</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/posts/Tadbir-haqida</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/posts/Yangi-kutubxona</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+    </url>
+<url>
+      <loc>https://school39.vercel.app/posts/Yangi-sport-maydoni</loc>
+      <lastmod>2025-09-05</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+    </url>
+</urlset>

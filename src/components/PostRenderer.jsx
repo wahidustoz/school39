@@ -11,7 +11,6 @@ import {
   Alert
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import DOMPurify from 'dompurify';
 import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
 
 function PostRenderer() {
