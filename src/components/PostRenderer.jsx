@@ -9,7 +9,7 @@ import {
   Alert
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
+import { getCachedData, setCachedData, CACHE_KEYS, getImageUrl } from '../utils/storage';
 
 function PostRenderer() {
   const { slug } = useParams();
@@ -39,8 +39,7 @@ function PostRenderer() {
         
         // Fetch posts metadata
         console.log(`🌐 Post "${slug}" metadata loaded from server`);
-        const basePath = import.meta.env.PROD ? '/school39' : '';
-        const postsResponse = await fetch(`${basePath}/posts/posts.json`);
+        const postsResponse = await fetch('/posts/posts.json');
         if (!postsResponse.ok) {
           throw new Error('Failed to fetch posts metadata');
         }
@@ -53,13 +52,19 @@ function PostRenderer() {
           return;
         }
         
-        setPost(currentPost);
-        setCachedData(CACHE_KEYS.POST_METADATA + slug, currentPost);
+        // Fix image URL for production
+        const postWithFixedImage = {
+          ...currentPost,
+          thumbnail: getImageUrl(currentPost.thumbnail)
+        };
+        
+        setPost(postWithFixedImage);
+        setCachedData(CACHE_KEYS.POST_METADATA + slug, postWithFixedImage);
         console.log(`💾 Post "${slug}" metadata saved to local storage`);
         
         // Fetch markdown content
         console.log(`🌐 Post "${slug}" content loaded from server`);
-        const contentResponse = await fetch(`${basePath}/posts/${slug}.md`);
+        const contentResponse = await fetch(`/posts/${slug}.md`);
         if (!contentResponse.ok) {
           setError('Post kontenti topilmadi');
           return;
@@ -287,7 +292,7 @@ function PostRenderer() {
             components={{
               img: ({ src, alt }) => (
                 <img 
-                  src={src} 
+                  src={getImageUrl(src)} 
                   alt={alt}
                   loading="lazy"
                   style={{

@@ -8,7 +8,7 @@ function HeroSection() {
         position: "relative",
         backgroundImage: `
       linear-gradient(rgba(9, 9, 9, 0.55), rgba(14, 14, 14, 0.6)),
-      url('${import.meta.env.PROD ? '/school39' : ''}/img/school.jpg')
+      url('/img/school.jpg')
     `,
         backgroundSize: "cover", // tasvir butunlay to‘ldiradi
         backgroundPosition: "center", // o‘rtadan joylashadi

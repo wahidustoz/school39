@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
+import { getCachedData, setCachedData, CACHE_KEYS, getImageUrl } from '../utils/storage';
 
 function PostList() {
   const [posts, setPosts] = useState([]);
@@ -37,14 +37,18 @@ function PostList() {
         
         // If not in cache, fetch from server
         console.log('🌐 Posts loaded from server');
-        const basePath = import.meta.env.PROD ? '/school39' : '';
-        const response = await fetch(`${basePath}/posts/posts.json`);
+        const response = await fetch('/posts/posts.json');
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
         
         const data = await response.json();
-        setPosts(data);
+        // Add base path to image URLs in production
+        const postsWithFixedImages = data.map(post => ({
+          ...post,
+          thumbnail: getImageUrl(post.thumbnail)
+        }));
+        setPosts(postsWithFixedImages);
         
         // Save to cache
         setCachedData(CACHE_KEYS.POSTS_LIST, data);
