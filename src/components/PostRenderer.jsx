@@ -295,22 +295,31 @@ function PostRenderer() {
         >
           <ReactMarkdown
             components={{
-              img: ({ src, alt }) => (
-                <img 
-                  src={getImageUrl(src)} 
-                  alt={alt}
-                  loading="lazy"
-                  style={{
-                    maxWidth: '100%',
-                    height: 'auto',
-                    borderRadius: '12px',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-                    marginBottom: '24px',
-                    display: 'block',
-                    margin: '24px auto'
-                  }}
-                />
-              )
+              img: ({ src, alt }) => {
+                // Handle relative paths (starting with ./)
+                let resolvedSrc = src;
+                if (src.startsWith('./')) {
+                  // Convert ./images/file.jpg to /posts/{slug}/images/file.jpg
+                  resolvedSrc = `/posts/${slug}/${src.substring(2)}`;
+                }
+                
+                return (
+                  <img 
+                    src={getImageUrl(resolvedSrc)} 
+                    alt={alt}
+                    loading="lazy"
+                    style={{
+                      maxWidth: '100%',
+                      height: 'auto',
+                      borderRadius: '12px',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                      marginBottom: '24px',
+                      display: 'block',
+                      margin: '24px auto'
+                    }}
+                  />
+                );
+              }
             }}
           >
             {content}
