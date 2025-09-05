@@ -296,11 +296,18 @@ function PostRenderer() {
           <ReactMarkdown
             components={{
               img: ({ src, alt }) => {
-                // Handle relative paths (starting with ./)
+                // Handle relative paths
                 let resolvedSrc = src;
+                
                 if (src.startsWith('./')) {
                   // Convert ./images/file.jpg to /posts/{slug}/images/file.jpg
                   resolvedSrc = `/posts/${slug}/${src.substring(2)}`;
+                } else if (src.startsWith('images/')) {
+                  // Convert images/file.jpg to /posts/{slug}/images/file.jpg
+                  resolvedSrc = `/posts/${slug}/${src}`;
+                } else if (!src.startsWith('http') && !src.startsWith('/')) {
+                  // Handle any other relative path by prepending the post path
+                  resolvedSrc = `/posts/${slug}/${src}`;
                 }
                 
                 return (
