@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
+import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
 
 function PostRenderer() {
   const { slug } = useParams();
@@ -24,9 +25,28 @@ function PostRenderer() {
     const fetchPost = async () => {
       try {
         setLoading(true);
+        console.log(`🔄 Starting to load post: ${slug}`);
+        
+        // Check cache for post metadata and content
+        const cachedPost = getCachedData(CACHE_KEYS.POST_METADATA + slug);
+        const cachedContent = getCachedData(CACHE_KEYS.POST_CONTENT + slug);
+        console.log(`🔍 Checking cache for post "${slug}":`, { hasPost: !!cachedPost, hasContent: !!cachedContent });
+        
+        if (cachedPost && cachedContent) {
+          console.log(`📦 Post "${slug}" loaded from local storage`);
+          setPost(cachedPost);
+          setContent(cachedContent);
+          setLoading(false);
+          return;
+        }
         
         // Fetch posts metadata
+        console.log(`🌐 Post "${slug}" metadata loaded from server`);
         const postsResponse = await fetch('/posts/posts.json');
+        if (!postsResponse.ok) {
+          throw new Error('Failed to fetch posts metadata');
+        }
+        
         const posts = await postsResponse.json();
         const currentPost = posts.find(p => p.slug === slug);
         
@@ -36,8 +56,11 @@ function PostRenderer() {
         }
         
         setPost(currentPost);
+        setCachedData(CACHE_KEYS.POST_METADATA + slug, currentPost);
+        console.log(`💾 Post "${slug}" metadata saved to local storage`);
         
         // Fetch markdown content
+        console.log(`🌐 Post "${slug}" content loaded from server`);
         const contentResponse = await fetch(`/posts/${slug}.md`);
         if (!contentResponse.ok) {
           setError('Post kontenti topilmadi');
@@ -54,6 +77,8 @@ function PostRenderer() {
         }
 
         setContent(markdownContent);
+        setCachedData(CACHE_KEYS.POST_CONTENT + slug, markdownContent);
+        console.log(`💾 Post "${slug}" content saved to local storage`);
         
       } catch (err) {
         setError('Post yuklanmadi');

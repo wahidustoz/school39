@@ -10,20 +10,57 @@ import {
   Button,
   Pagination,
   Container,
-  Chip
+  Chip,
+  CircularProgress
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
 
 function PostList() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const postsPerPage = 6;
 
   useEffect(() => {
-    fetch('/posts/posts.json')
-      .then(response => response.json())
-      .then(data => setPosts(data))
-      .catch(error => console.error('Error loading posts:', error));
+    const loadPosts = async () => {
+      try {
+        setLoading(true);
+        console.log('🔄 Starting to load posts...');
+        
+        // First try to get from cache
+        const cachedPosts = getCachedData(CACHE_KEYS.POSTS_LIST);
+        console.log('🔍 Checking cache for posts:', !!cachedPosts);
+        
+        if (cachedPosts) {
+          console.log('📦 Posts loaded from local storage');
+          setPosts(cachedPosts);
+          setLoading(false);
+          return;
+        }
+        
+        // If not in cache, fetch from server
+        console.log('🌐 Posts loaded from server');
+        const response = await fetch('/posts/posts.json');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        
+        const data = await response.json();
+        setPosts(data);
+        
+        // Save to cache
+        setCachedData(CACHE_KEYS.POSTS_LIST, data);
+        console.log('💾 Posts saved to local storage');
+        
+      } catch (error) {
+        console.error('Error loading posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
   }, []);
 
   const handlePageChange = (event, value) => {
@@ -43,6 +80,29 @@ function PostList() {
   const endIndex = startIndex + postsPerPage;
   const currentPosts = posts.slice(startIndex, endIndex);
   const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  if (loading) {
+    return (
+      <Box
+        id="posts"
+        sx={{
+          py: 6,
+          bgcolor: 'linear-gradient(135deg, #f5f7fa 0%, #e6ecf3 100%)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '400px'
+        }}
+      >
+        <Box sx={{ textAlign: 'center' }}>
+          <CircularProgress size={60} />
+          <Typography variant="h6" sx={{ mt: 2, color: 'primary.main' }}>
+            Yangiliklar yuklanmoqda...
+          </Typography>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -67,7 +127,7 @@ function PostList() {
             textAlign: 'center'
           }}
         >
-          So‘nggi yangiliklar
+          So'nggi yangiliklar
         </Typography>
 
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 3, md: 4 } }}>
