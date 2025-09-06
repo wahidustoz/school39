@@ -45,7 +45,7 @@ function PostRenderer() {
         }
         
         const posts = await postsResponse.json();
-        const currentPost = posts.find(p => p.slug === slug);
+        const currentPost = posts.find(p => p.slug.toLowerCase() === slug.toLowerCase());
         
         if (!currentPost) {
           setError('Post topilmadi');
