@@ -1,0 +1,40 @@
+/*
+  Netlify SPA redirect: All requests go to index.html
+*/
+/*  This file should be placed in the public/ directory for Netlify deployments.  */
+/*  For other hosts, let me know and I will provide the correct config.  */
+/*  See: https://docs.netlify.com/routing/redirects/#history-pushstate-and-single-page-apps  */
+
+/* Redirect all requests to index.html for SPA routing */
+/*   /index.html 200  */
+/*   /*    /index.html   200   */
+/*   /posts/*    /index.html   200   */
+/*   /img/*      /index.html   200   */
+/*   /public/*   /index.html   200   */
+/*   /src/*      /index.html   200   */
+/*   /scripts/*  /index.html   200   */
+/*   /dist/*     /index.html   200   */
+/*   /assets/*   /index.html   200   */
+/*   /favicon.ico /index.html  200   */
+/*   /sitemap.xml /index.html  200   */
+/*   /robots.txt  /index.html  200   */
+/*   /manifest.json /index.html 200  */
+/*   /service-worker.js /index.html 200 */
+/*   /404.html /index.html 200 */
+/*   /_redirects /index.html 200 */
+/*   /README.md /index.html 200 */
+/*   /DEPLOYMENT.md /index.html 200 */
+/*   /vite.config.js /index.html 200 */
+/*   /package.json /index.html 200 */
+/*   /eslint.config.js /index.html 200 */
+/*   /IMAGE_GUIDE.md /index.html 200 */
+/*   /index.css /index.html 200 */
+/*   /theme.js /index.html 200 */
+/*   /storage.js /index.html 200 */
+/*   /main.jsx /index.html 200 */
+/*   /App.jsx /index.html 200 */
+/*   /ContactSection.jsx /index.html 200 */
+/*   /FeaturesSection.jsx /index.html 200 */
+/*   /HeroSection.jsx /index.html 200 */
+/*   /PostList.jsx /index.html 200 */
+/*   /PostRenderer.jsx /index.html 200 */
