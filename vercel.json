@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/posts/(.*\\.md)", "destination": "/posts/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "redirects": [

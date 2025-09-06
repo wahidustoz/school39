@@ -64,7 +64,7 @@ function PostRenderer() {
         
         // Fetch markdown content
         console.log(`🌐 Post "${slug}" content loaded from server`);
-        const contentResponse = await fetch(`/posts/${slug}.md`);
+        const contentResponse = await fetch(`/posts/${currentPost.slug}.md`);
         if (!contentResponse.ok) {
           setError('Post kontenti topilmadi');
           return;
@@ -75,6 +75,7 @@ function PostRenderer() {
         const markdownContent = await contentResponse.text();
         const looksLikeHtml = /<\!doctype html>|<html[\s\S]*?>/i.test(markdownContent);
         if (looksLikeHtml || (!contentType.includes('text/markdown') && !contentType.includes('text/plain'))) {
+          console.error(`❌ Post "${slug}" content looks like HTML instead of markdown. Content-Type: ${contentType}`);
           setError('Post kontenti topilmadi (MD fayl mos kelmadi)');
           return;
         }
