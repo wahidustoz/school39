@@ -15,7 +15,6 @@ function extractMetadata(markdownContent, filePath) {
   let title = '';
   let description = '';
   let date = new Date().toISOString(); // Default to current date and time
-  let date = new Date().toISOString(); // Default to current date and time
   let thumbnail = '';
 
   // Check if posts.json already exists and has this post
@@ -30,16 +29,16 @@ function extractMetadata(markdownContent, filePath) {
       console.log(`📅 Keeping existing date for ${slug}: ${date}`);
     } else {
       // For new posts, use file creation date
-      const stats = fs.statSync(filePath);
-      date = stats.birthtime.toISOString();
+      const fileStats = fs.statSync(filePath);
+      date = fileStats.birthtime.toISOString();
       console.log(`🆕 New post ${slug}, using creation date: ${date}`);
     }
   } catch (error) {
     console.warn(`Could not read existing posts.json:`, error.message);
     // Fallback to file creation date
     try {
-      const stats = fs.statSync(filePath);
-      date = stats.birthtime.toISOString();
+      const fileStats = fs.statSync(filePath);
+      date = fileStats.birthtime.toISOString();
     } catch (statError) {
       console.warn(`Could not get file stats for ${filePath}:`, statError.message);
     }
