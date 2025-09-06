@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/posts/(.*\\.md)", "destination": "/posts/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "redirects": [
+    { "source": "/posts/Informatika-darslari", "destination": "/posts/informatika-darslari", "permanent": true },
+    { "source": "/posts/Bitiruv-marosimi-2025", "destination": "/posts/bitiruv-marosimi-2025", "permanent": true },
+    { "source": "/posts/Tadbir-haqida", "destination": "/posts/tadbir-haqida", "permanent": true },
+    { "source": "/posts/Yangi-kutubxona", "destination": "/posts/yangi-kutubxona", "permanent": true },
+    { "source": "/posts/Yangi-sport-maydoni", "destination": "/posts/yangi-sport-maydoni", "permanent": true },
+    { "source": "/posts/Zamonaviy-laboratoriya-ochilishi", "destination": "/posts/zamonaviy-laboratoriya-ochilishi", "permanent": true }
+  ]
+}

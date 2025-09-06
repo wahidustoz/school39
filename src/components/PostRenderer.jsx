@@ -45,7 +45,7 @@ function PostRenderer() {
         }
         
         const posts = await postsResponse.json();
-        const currentPost = posts.find(p => p.slug === slug);
+        const currentPost = posts.find(p => p.slug.toLowerCase() === slug.toLowerCase());
         
         if (!currentPost) {
           setError('Post topilmadi');
@@ -64,7 +64,7 @@ function PostRenderer() {
         
         // Fetch markdown content
         console.log(`🌐 Post "${slug}" content loaded from server`);
-        const contentResponse = await fetch(`/posts/${slug}.md`);
+        const contentResponse = await fetch(`/posts/${currentPost.slug}.md`);
         if (!contentResponse.ok) {
           setError('Post kontenti topilmadi');
           return;
@@ -75,6 +75,7 @@ function PostRenderer() {
         const markdownContent = await contentResponse.text();
         const looksLikeHtml = /<\!doctype html>|<html[\s\S]*?>/i.test(markdownContent);
         if (looksLikeHtml || (!contentType.includes('text/markdown') && !contentType.includes('text/plain'))) {
+          console.error(`❌ Post "${slug}" content looks like HTML instead of markdown. Content-Type: ${contentType}`);
           setError('Post kontenti topilmadi (MD fayl mos kelmadi)');
           return;
         }
@@ -104,8 +105,10 @@ function PostRenderer() {
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
     
-    return `${day} ${month}, ${year}`;
+    return `${day} ${month}, ${year} ${hours}:${minutes}`;
   };
 
   if (loading) {
