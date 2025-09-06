@@ -14,13 +14,13 @@ function extractMetadata(markdownContent, filePath) {
   const lines = markdownContent.split('\n');
   let title = '';
   let description = '';
-  let date = new Date().toISOString().split('T')[0]; // Default to today
+  let date = new Date().toISOString(); // Default to current date and time
   let thumbnail = '';
 
-  // Try to get file creation date
+  // Try to get file creation date with time
   try {
     const stats = fs.statSync(filePath);
-    date = stats.birthtime.toISOString().split('T')[0];
+    date = stats.birthtime.toISOString();
   } catch (error) {
     console.warn(`Could not get file stats for ${filePath}:`, error.message);
   }
