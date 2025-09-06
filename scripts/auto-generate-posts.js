@@ -75,15 +75,27 @@ function scanMarkdownFiles() {
 function generatePostsJson() {
   try {
     const markdownFiles = scanMarkdownFiles();
+    let existingPosts = [];
+    if (fs.existsSync(postsJsonPath)) {
+      try {
+        existingPosts = JSON.parse(fs.readFileSync(postsJsonPath, 'utf8'));
+      } catch (err) {
+        console.warn('Could not parse existing posts.json:', err.message);
+      }
+    }
     const posts = [];
 
     for (const file of markdownFiles) {
       const slug = file.replace('.md', '');
       const filePath = path.join(postsDir, file);
       const content = fs.readFileSync(filePath, 'utf8');
-      
+
       const metadata = extractMetadata(content, filePath);
-      
+
+      // Preserve original date if exists in posts.json
+      const existing = existingPosts.find(p => p.slug === slug);
+      const date = existing && existing.date ? existing.date : metadata.date;
+
       // Check if thumbnail exists - prioritize post-specific images
       const possibleThumbnails = [
         `/posts/${slug}/images/header.jpg`,
@@ -95,7 +107,7 @@ function generatePostsJson() {
         `/img/${slug}.jpeg`,
         `/img/${slug}.webp`
       ];
-      
+
       let thumbnail = '';
       for (const thumb of possibleThumbnails) {
         const thumbPath = path.join(__dirname, '../public', thumb);
@@ -109,12 +121,12 @@ function generatePostsJson() {
         slug,
         title: metadata.title,
         description: metadata.description,
-        date: metadata.date,
+        date,
         thumbnail: thumbnail || '/img/default-post.jpg' // Default thumbnail
       };
 
       posts.push(post);
-      console.log(`✅ Generated post: ${slug}`);
+      console.log(`705 Generated post: ${slug}`);
     }
 
     // Sort posts by date (newest first)
@@ -122,11 +134,11 @@ function generatePostsJson() {
 
     // Write posts.json
     fs.writeFileSync(postsJsonPath, JSON.stringify(posts, null, 2));
-    console.log(`📝 Updated posts.json with ${posts.length} posts`);
-    
+    console.log(`f4dd Updated posts.json with ${posts.length} posts`);
+
     return posts;
   } catch (error) {
-    console.error('❌ Error generating posts.json:', error);
+    console.error('74c Error generating posts.json:', error);
     return [];
   }
 }
