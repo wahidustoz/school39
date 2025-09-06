@@ -136,6 +136,7 @@ function generatePostsJson() {
     // Write posts.json
     fs.writeFileSync(postsJsonPath, JSON.stringify(posts, null, 2));
     console.log(`📝 Updated posts.json with ${posts.length} posts`);
+    console.log(`📅 Final dates:`, posts.map(p => `${p.slug}: ${p.date}`));
     
     return posts;
   } catch (error) {
