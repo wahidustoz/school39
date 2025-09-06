@@ -28,20 +28,14 @@ function extractMetadata(markdownContent, filePath) {
       date = existingPost.date;
       console.log(`📅 Keeping existing date for ${slug}: ${date}`);
     } else {
-      // For new posts, use file creation date
-      const fileStats = fs.statSync(filePath);
-      date = fileStats.birthtime.toISOString();
-      console.log(`🆕 New post ${slug}, using creation date: ${date}`);
+      // For new posts, use current date and time
+      date = new Date().toISOString();
+      console.log(`🆕 New post ${slug}, using current date: ${date}`);
     }
   } catch (error) {
     console.warn(`Could not read existing posts.json:`, error.message);
-    // Fallback to file creation date
-    try {
-      const fileStats = fs.statSync(filePath);
-      date = fileStats.birthtime.toISOString();
-    } catch (statError) {
-      console.warn(`Could not get file stats for ${filePath}:`, statError.message);
-    }
+    // Fallback to current date
+    date = new Date().toISOString();
   }
 
   // Extract title from first # heading
