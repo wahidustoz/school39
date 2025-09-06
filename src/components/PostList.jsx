@@ -2,25 +2,21 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardMedia,
-  CardActions,
-  Button,
-  Pagination,
   Container,
-  Chip,
-  CircularProgress
+  CircularProgress,
+  IconButton
 } from '@mui/material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
+import { getCachedData, setCachedData, CACHE_KEYS, getImageUrl } from '../utils/storage';
 
 function PostList() {
   const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const postsPerPage = 6;
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -34,7 +30,9 @@ function PostList() {
         
         if (cachedPosts) {
           console.log('📦 Posts loaded from local storage');
-          setPosts(cachedPosts);
+          // Ensure cached posts are also sorted by date (newest first)
+          const sortedCachedPosts = cachedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+          setPosts(sortedCachedPosts);
           setLoading(false);
           return;
         }
@@ -47,7 +45,14 @@ function PostList() {
         }
         
         const data = await response.json();
-        setPosts(data);
+        // Sort posts by date (newest first) and add base path to image URLs
+        const postsWithFixedImages = data
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort newest first
+          .map(post => ({
+            ...post,
+            thumbnail: getImageUrl(post.thumbnail)
+          }));
+        setPosts(postsWithFixedImages);
         
         // Save to cache
         setCachedData(CACHE_KEYS.POSTS_LIST, data);
@@ -63,23 +68,35 @@ function PostList() {
     loadPosts();
   }, []);
 
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('uz-UZ', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    const months = [
+      'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
+      'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'
+    ];
+    
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month}, ${year}`;
   };
 
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const endIndex = startIndex + postsPerPage;
-  const currentPosts = posts.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(posts.length / postsPerPage);
+  const handleScroll = (direction) => {
+    const container = document.getElementById('posts-scroll-container');
+    if (container) {
+      const scrollAmount = 320; // Card width + gap
+      const newPosition = direction === 'left' 
+        ? Math.max(0, scrollPosition - scrollAmount)
+        : Math.min(container.scrollWidth - container.clientWidth, scrollPosition + scrollAmount);
+      
+      container.scrollTo({ left: newPosition, behavior: 'smooth' });
+      setScrollPosition(newPosition);
+    }
+  };
+
+  const canScrollLeft = scrollPosition > 0;
+  const canScrollRight = scrollPosition < (posts.length * 320) - 1200; // Approximate
 
   if (loading) {
     return (
@@ -87,7 +104,6 @@ function PostList() {
         id="posts"
         sx={{
           py: 6,
-          bgcolor: 'linear-gradient(135deg, #f5f7fa 0%, #e6ecf3 100%)',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -109,7 +125,6 @@ function PostList() {
       id="posts"
       sx={{
         py: 6,
-        bgcolor: 'linear-gradient(135deg, #f5f7fa 0%, #e6ecf3 100%)',
       }}
     >
       <Container maxWidth="xl">
@@ -119,7 +134,7 @@ function PostList() {
           gutterBottom
           sx={{ 
             mb: 5,
-            fontWeight: 800,
+            fontWeight: 400,
             fontSize: { xs: '1.75rem', md: '2.25rem' },
             lineHeight: 1.2,
             letterSpacing: '-0.01em',
@@ -130,119 +145,185 @@ function PostList() {
           So'nggi yangiliklar
         </Typography>
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 3, md: 4 } }}>
-          {currentPosts.map((post) => (
-            <Box key={post.slug}>
+        <Box sx={{ position: 'relative' }}>
+          {/* Left scroll button */}
+          <IconButton
+            onClick={() => handleScroll('left')}
+            disabled={!canScrollLeft}
+            sx={{
+              position: 'absolute',
+              left: -20,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 2,
+              bgcolor: 'background.paper',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              '&:hover': {
+                bgcolor: 'background.paper',
+              },
+              '&.Mui-disabled': {
+                opacity: 0.3,
+              },
+            }}
+          >
+            <ChevronLeft />
+          </IconButton>
+
+          {/* Right scroll button */}
+          <IconButton
+            onClick={() => handleScroll('right')}
+            disabled={!canScrollRight}
+            sx={{
+              position: 'absolute',
+              right: -20,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 2,
+              bgcolor: 'background.paper',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              '&:hover': {
+                bgcolor: 'background.paper',
+              },
+              '&.Mui-disabled': {
+                opacity: 0.3,
+              },
+            }}
+          >
+            <ChevronRight />
+          </IconButton>
+
+          {/* Scrollable container */}
+          <Box
+            id="posts-scroll-container"
+            sx={{
+              display: 'flex',
+              gap: 3,
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              scrollBehavior: 'smooth',
+              pb: 2,
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+            }}
+          >
+            {posts.map((post) => (
               <Card
+                key={post.slug}
+                component={Link}
+                to={`/posts/${post.slug}`}
                 sx={{
-                  height: '100%',
+                  minWidth: 300,
+                  maxWidth: 300,
+                  height: 380,
                   display: 'flex',
                   flexDirection: 'column',
-                  borderRadius: 2,
-                  overflow: 'hidden',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease',
+                  outline: 'none',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+                  },
+                  '&:focus': {
+                    outline: 'none',
+                  },
+                  '&:focus-visible': {
+                    outline: 'none',
                   }
                 }}
               >
                 {post.thumbnail && (
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={post.thumbnail}
-                    alt={post.title}
-                    sx={{ objectFit: 'cover' }}
-                  />
-                )}
-                <CardContent sx={{ flexGrow: 1, p: { xs: 2.5, md: 3 } }}>
-                  <Box sx={{ mb: 2 }}>
-                    <Chip
-                      label={formatDate(post.date)}
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                      sx={{ fontWeight: 500 }}
+                  <Box
+                    sx={{
+                      height: 180,
+                      overflow: 'hidden',
+                      position: 'relative'
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="180"
+                      image={post.thumbnail}
+                      alt={post.title}
+                      sx={{ 
+                        objectFit: 'cover',
+                        width: '100%',
+                        height: '100%',
+                        transition: 'transform 0.3s ease',
+                        '&:hover': {
+                          transform: 'scale(1.05)',
+                        }
+                      }}
                     />
                   </Box>
+                )}
+                <CardContent 
+                  sx={{ 
+                    flexGrow: 1, 
+                    p: 3,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      gutterBottom
+                      sx={{
+                        fontWeight: 500,
+                        lineHeight: 1.4,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        fontSize: '1.1rem',
+                        mb: 1.5,
+                        color: 'text.primary',
+                        '&:hover': {
+                          color: 'text.primary',
+                        }
+                      }}
+                    >
+                      {post.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        display: '-webkit-box',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.5,
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {post.description}
+                    </Typography>
+                  </Box>
+                  
                   <Typography
-                    variant="h6"
-                    component="h3"
-                    gutterBottom
+                    variant="caption"
                     sx={{
-                      fontWeight: 700,
-                      lineHeight: 1.45,
-                      display: '-webkit-box',
-                      WebkitLineClamp: { xs: 2, md: 3 },
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                      fontSize: { xs: '1.1rem', md: '1.25rem' },
-                      letterSpacing: '-0.01em',
-                      color: 'text.primary'
+                      color: 'text.disabled',
+                      fontSize: '0.75rem',
+                      textAlign: 'right',
+                      mt: 1
                     }}
                   >
-                    {post.title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{
-                      display: '-webkit-box',
-                      fontSize: { xs: '1rem', md: '1.075rem' },
-                      lineHeight: 1.75,
-                      mt: 0.5,
-                      WebkitLineClamp: { xs: 3, md: 4 },
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    {post.description}
+                    {formatDate(post.date)}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{ p: 3, pt: 0 }}>
-                  <Button
-                    component={Link}
-                    to={`/posts/${post.slug}`}
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      textTransform: 'none',
-                      borderRadius: '20px',
-                      fontWeight: 600,
-                      background: 'linear-gradient(90deg, #1976d2, #42a5f5)',
-                      color: 'white',
-                      boxShadow: '0 4px 12px rgba(25, 118, 210, 0.4)',
-                      '&, &:hover, &:active, &:focus': {
-                        color: 'white'
-                      },
-                      '&:hover': {
-                        background: 'linear-gradient(90deg, #1565c0, #1e88e5)'
-                      },
-                      '&:active': {
-                        background: 'linear-gradient(90deg, #0d47a1, #1565c0)'
-                      }
-                    }}
-                  >
-                    Batafsil o‘qish
-                  </Button>
-                </CardActions>
               </Card>
-            </Box>
-          ))}
-        </Box>
-
-        {totalPages > 1 && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              color="primary"
-              size="large"
-            />
+            ))}
           </Box>
-        )}
+        </Box>
       </Container>
     </Box>
   );

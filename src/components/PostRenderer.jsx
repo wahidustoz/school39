@@ -4,14 +4,12 @@ import {
   Box, 
   Typography, 
   Container, 
-  Button, 
-  Paper,
-  Chip,
+  Button,
   CircularProgress,
   Alert
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/storage';
+import { getCachedData, setCachedData, CACHE_KEYS, getImageUrl } from '../utils/storage';
 
 function PostRenderer() {
   const { slug } = useParams();
@@ -54,8 +52,14 @@ function PostRenderer() {
           return;
         }
         
-        setPost(currentPost);
-        setCachedData(CACHE_KEYS.POST_METADATA + slug, currentPost);
+        // Fix image URL for production
+        const postWithFixedImage = {
+          ...currentPost,
+          thumbnail: getImageUrl(currentPost.thumbnail)
+        };
+        
+        setPost(postWithFixedImage);
+        setCachedData(CACHE_KEYS.POST_METADATA + slug, postWithFixedImage);
         console.log(`💾 Post "${slug}" metadata saved to local storage`);
         
         // Fetch markdown content
@@ -92,11 +96,16 @@ function PostRenderer() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('uz-UZ', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    const months = [
+      'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
+      'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'
+    ];
+    
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month}, ${year}`;
   };
 
   if (loading) {
@@ -138,48 +147,59 @@ function PostRenderer() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Button 
-        component={Link} 
-        to="/" 
-        variant="outlined" 
-        sx={{ mb: 3 }}
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          mb: 4 
+        }}
       >
-        ← Bosh sahifaga qaytish
-      </Button>
-      
-      <Paper elevation={2} sx={{ p: { xs: 3, sm: 4 }, maxWidth: 900, mx: 'auto' }}>
-        <Box sx={{ mb: 3 }}>
-          <Chip 
-            label={formatDate(post.date)} 
-            color="primary" 
-            variant="outlined"
-            sx={{ mb: 2 }}
-          />
-          <Typography 
-            variant="h3" 
-            component="h1" 
-            gutterBottom
-            sx={{ 
-              fontWeight: 700,
+        <Button 
+          component={Link} 
+          to="/" 
+          variant="text" 
+          sx={{ 
+            color: 'text.secondary',
+            '&:hover': {
               color: 'primary.main',
-              lineHeight: 1.2,
-              letterSpacing: '-0.01em'
-            }}
-          >
-            {post.title}
-          </Typography>
-        </Box>
+              backgroundColor: 'transparent'
+            }
+          }}
+        >
+          ← Bosh sahifaga qaytish
+        </Button>
+        
+        <Typography
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            fontSize: '0.875rem'
+          }}
+        >
+          {formatDate(post.date)}
+        </Typography>
+      </Box>
+      
+      <Box sx={{ maxWidth: 800, mx: 'auto' }}>
 
         {post.thumbnail && (
-          <Box sx={{ mb: 3 }}>
+          <Box 
+            sx={{ 
+              mb: 6,
+              mx: { xs: -2, sm: -4, md: 0 },
+              overflow: 'hidden'
+            }}
+          >
             <img 
               src={post.thumbnail} 
               alt={post.title}
               style={{
                 width: '100%',
                 height: 'auto',
-                borderRadius: '8px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                maxHeight: '400px',
+                objectFit: 'cover',
+                display: 'block'
               }}
             />
           </Box>
@@ -187,79 +207,132 @@ function PostRenderer() {
 
         <Box 
           sx={{ 
-            maxWidth: 760,
-            mx: 'auto',
             '& h1': {
-              fontSize: { xs: '1.8rem', sm: '2.2rem' },
+              fontSize: { xs: '1.75rem', sm: '2rem' },
+              fontWeight: 400,
+              color: 'text.primary',
+              mt: 4,
+              mb: 2,
+              lineHeight: 1.3
             },
             '& h2': {
-              fontSize: { xs: '1.5rem', sm: '1.8rem' },
+              fontSize: { xs: '1.5rem', sm: '1.75rem' },
+              fontWeight: 400,
+              color: 'text.primary',
+              mt: 3.5,
+              mb: 1.5,
+              lineHeight: 1.3
             },
             '& h3, & h4, & h5, & h6': {
-              fontSize: { xs: '1.25rem', sm: '1.35rem' },
-            },
-            '& h1, & h2, & h3, & h4, & h5, & h6': {
-              color: 'primary.main',
-              fontWeight: 600,
+              fontSize: { xs: '1.25rem', sm: '1.4rem' },
+              fontWeight: 400,
+              color: 'text.primary',
               mt: 3,
-              mb: 2,
-              lineHeight: 1.25
+              mb: 1.5,
+              lineHeight: 1.4
             },
             '& p': {
-              mb: 2,
+              mb: 2.5,
               lineHeight: 1.8,
-              fontSize: { xs: '1rem', sm: '1.05rem' },
-              color: 'text.primary'
+              fontSize: { xs: '1rem', sm: '1.1rem' },
+              color: 'text.primary',
+              fontWeight: 400
             },
             '& ul, & ol': {
-              mb: 2,
-              pl: 3,
-            },
-            '& li': {
-              mb: 1,
-              lineHeight: 1.7
+              mb: 2.5,
+              pl: 2.5,
+              '& li': {
+                mb: 1,
+                lineHeight: 1.7,
+                fontSize: { xs: '1rem', sm: '1.1rem' },
+                color: 'text.primary'
+              }
             },
             '& img': {
               maxWidth: '100%',
               height: 'auto',
-              borderRadius: '8px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-              mb: 2,
+              borderRadius: '12px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+              mb: 3,
+              display: 'block',
+              mx: 'auto'
             },
             '& blockquote': {
-              borderLeft: '4px solid',
+              borderLeft: '3px solid',
               borderColor: 'primary.main',
-              pl: 2,
+              pl: 2.5,
               ml: 0,
+              mr: 0,
+              my: 3,
               fontStyle: 'italic',
-              bgcolor: 'background.default',
-              py: 1,
-              borderRadius: '0 4px 4px 0',
+              backgroundColor: 'rgba(255, 255, 255, 0.02)',
+              py: 2,
+              borderRadius: '0 8px 8px 0',
+              '& p': {
+                color: 'text.secondary',
+                fontSize: { xs: '1rem', sm: '1.05rem' }
+              }
+            },
+            '& code': {
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              fontSize: '0.9em',
+              color: 'primary.light'
+            },
+            '& pre': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              padding: '16px',
+              borderRadius: '8px',
+              overflow: 'auto',
+              mb: 3,
+              '& code': {
+                backgroundColor: 'transparent',
+                padding: 0
+              }
             }
           }}
         >
           <ReactMarkdown
             components={{
-              img: ({ src, alt }) => (
-                <img 
-                  src={src} 
-                  alt={alt}
-                  loading="lazy"
-                  style={{
-                    maxWidth: '100%',
-                    height: 'auto',
-                    borderRadius: '8px',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                    marginBottom: '16px',
-                  }}
-                />
-              )
+              img: ({ src, alt }) => {
+                // Handle relative paths
+                let resolvedSrc = src;
+                
+                if (src.startsWith('./')) {
+                  // Convert ./images/file.jpg to /posts/{slug}/images/file.jpg
+                  resolvedSrc = `/posts/${slug}/${src.substring(2)}`;
+                } else if (src.startsWith('images/')) {
+                  // Convert images/file.jpg to /posts/{slug}/images/file.jpg
+                  resolvedSrc = `/posts/${slug}/${src}`;
+                } else if (!src.startsWith('http') && !src.startsWith('/')) {
+                  // Handle any other relative path by prepending the post path
+                  resolvedSrc = `/posts/${slug}/${src}`;
+                }
+                
+                return (
+                  <img 
+                    src={getImageUrl(resolvedSrc)} 
+                    alt={alt}
+                    loading="lazy"
+                    style={{
+                      maxWidth: '100%',
+                      height: 'auto',
+                      borderRadius: '12px',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                      marginBottom: '24px',
+                      display: 'block',
+                      margin: '24px auto'
+                    }}
+                  />
+                );
+              }
             }}
           >
             {content}
           </ReactMarkdown>
         </Box>
-      </Paper>
+      </Box>
     </Container>
   );
 }

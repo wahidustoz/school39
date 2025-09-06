@@ -1,120 +1,176 @@
-# 39-sonli Maktab Landing Page
+# School 39 Website
 
-Bu loyiha React v19, MUI v7+ va Vite yordamida yaratilgan zamonaviy maktab landing page'idir.
+This is the official website for School 39 - a modern, static React SPA built with Vite and deployed to GitHub Pages.
 
-## Xususiyatlar
+## 🚀 Features
 
-- **Zamonaviy dizayn**: MUI v7+ komponentlari bilan yaratilgan responsive dizayn
-- **Markdown post tizimi**: Yangi postlar qo'shish uchun markdown fayllaridan foydalanish
-- **Tez yuklanish**: Vite va optimizatsiya qilingan kod
-- **Responsive**: Barcha qurilmalarda mukammal ishlaydi
-- **Formal Latin Uzbek**: Barcha matnlar formal Latin Uzbek tilida
+- **Static React SPA**: Fast, modern web application built with React and Vite
+- **Material Design 3 Dark Theme**: Clean, minimal design following Google's latest design guidelines
+- **Markdown-Based Posts**: Easy content management with markdown files
+- **Organized Image System**: Intuitive image handling with post-specific folders
+- **Horizontal Post Scrolling**: Modern UI with smooth horizontal scrolling for posts
+- **Automatic Deployment**: GitHub Actions automatically builds and deploys on push
+- **SEO Optimized**: Automatic sitemap generation and meta tags
 
-## Loyiha tuzilishi
+## 🏗️ Architecture
+
+This is a **static site** that runs entirely in the browser - no server required!
+
+- **Frontend**: React 19 + Vite
+- **Styling**: Material-UI (MUI) with custom Material Design 3 dark theme
+- **Routing**: React Router DOM
+- **Content**: Markdown files with automatic JSON generation
+- **Deployment**: GitHub Pages with GitHub Actions
+- **Images**: Organized folder structure per post
+
+## 📁 Project Structure
 
 ```
-/public
-  /posts
-    posts.json          # Postlar haqida ma'lumot
-    *.md               # Markdown post fayllari
-    *.jpg              # Post rasmlari
-  hero-bg.jpg          # Hero section uchun fon rasm
-/src
-  /components
-    HeroSection.jsx    # Hero qismi
-    PostList.jsx       # Postlar ro'yxati
-    PostRenderer.jsx   # Markdown postlarni ko'rsatish
-    FeaturesSection.jsx # Maktab imkoniyatlari
-    ContactSection.jsx  # Aloqa ma'lumotlari
-  /styles
-    theme.js           # MUI mavzusi
-  App.jsx              # Asosiy komponent
-  main.jsx             # Kirish nuqtasi
+├── public/
+│   ├── posts/                    # Post content and images
+│   │   ├── {post-slug}/
+│   │   │   └── images/          # Post-specific images
+│   │   │       └── header.png   # Post thumbnail
+│   │   └── {post-slug}.md       # Post markdown file
+│   ├── img/                     # General images
+│   └── sitemap.xml              # Auto-generated sitemap
+├── src/
+│   ├── components/              # React components
+│   ├── styles/                  # Theme and styling
+│   └── utils/                   # Utilities and helpers
+├── scripts/                     # Build scripts
+│   ├── auto-generate-posts.js   # Post metadata generator
+│   └── generate-sitemap.js      # Sitemap generator
+└── .github/workflows/           # GitHub Actions
+    └── deploy.yml               # Auto-deployment workflow
 ```
 
-## O'rnatish va ishga tushirish
+## 🛠️ Development
 
-1. **Dependencies o'rnatish**:
-   ```bash
-   npm install
-   ```
-
-2. **Development server ishga tushirish**:
-   ```bash
-   npm run dev
-   ```
-
-3. **Production build yaratish**:
-   ```bash
-   npm run build
-   ```
-
-## Yangi post qo'shish
-
-1. `/public/posts/` papkasiga yangi markdown fayl yarating (masalan: `yangi-post.md`)
-2. `/public/posts/posts.json` faylini yangilang:
-   ```json
-   {
-     "slug": "yangi-post",
-     "title": "Yangi post sarlavhasi",
-     "description": "Qisqa tavsif",
-     "date": "2025-01-01",
-     "thumbnail": "/posts/yangi-post-1.jpg"
-   }
-   ```
-3. Agar kerak bo'lsa, post uchun rasm qo'shing (`yangi-post-1.jpg`)
-
-## Rasm optimizatsiyasi
-
-- Hero fon rasm: 1920x1080px, JPG yoki WebP formatida
-- Post rasmlari: 800x600px, JPG formatida
-- Barcha rasmlarni WebP formatiga o'tkazish tavsiya etiladi
-
-## Mavzu sozlash
-
-Maktab ranglarini o'zgartirish uchun `/src/styles/theme.js` faylini tahrirlang:
-
-```javascript
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#sizning-rang', // Asosiy rang
-    },
-    secondary: {
-      main: '#ikkinchi-rang', // Ikkinchi rang
-    },
-  },
-});
-```
-
-## Xarita sozlash
-
-Yandex Maps xaritasini o'zgartirish uchun `/src/components/ContactSection.jsx` faylidagi iframe src'ni yangilang.
-
-## Deploy qilish
-
-### Vercel
-1. GitHub'ga kodni yuklang
-2. Vercel'ga ulang
-3. Build command: `npm run build`
-4. Output directory: `dist`
-
-### Netlify
-1. GitHub'ga kodni yuklang
-2. Netlify'ga ulang
-3. Build command: `npm run build`
-4. Publish directory: `dist`
-
-## Texnik talablar
-
+### Prerequisites
 - Node.js 18+
-- npm yoki yarn
-- Zamonaviy brauzer
+- npm or yarn
 
-## Yordam
+### Setup
+```bash
+git clone <repository-url>
+cd school39
+npm install
+```
 
-Agar savollar bo'lsa, loyiha muallifiga murojaat qiling.
+### Development Server
+```bash
+npm run dev
+```
 
----
+### Building for Production
+```bash
+npm run build
+```
 
-**Eslatma**: Barcha matnlar formal Latin Uzbek tilida yozilgan. Agar boshqa til kerak bo'lsa, komponentlardagi matnlarni o'zgartiring.
+### Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run generate-posts` - Generate posts.json from markdown files
+- `npm run generate-sitemap` - Generate sitemap.xml
+- `npm run lint` - Run ESLint
+
+## 📝 Content Management
+
+### Adding New Posts
+
+1. **Create the post file**: `public/posts/my-new-post.md`
+2. **Add images** (optional): 
+   - Create folder: `public/posts/my-new-post/images/`
+   - Add header image: `header.png/jpg/webp`
+   - Add content images: `image1.jpg`, `image2.png`, etc.
+3. **Write content** in markdown format
+4. **Commit and push** - GitHub Actions will automatically build and deploy
+
+### Post Format
+```markdown
+# Post Title
+
+First paragraph becomes the description...
+
+![Image description](./images/image1.jpg)
+
+More content here...
+```
+
+### Image Guidelines
+- **Header images**: 1200x600px recommended
+- **Content images**: Max 800px width
+- **Formats**: PNG, JPG, WebP
+- **Naming**: Use kebab-case (lowercase-with-dashes)
+
+See [IMAGE_GUIDE.md](./IMAGE_GUIDE.md) for detailed image handling instructions.
+
+## 🚀 Deployment
+
+This site automatically deploys to GitHub Pages using GitHub Actions:
+
+1. **Push to main branch** triggers the deployment
+2. **GitHub Actions** builds the site and generates content
+3. **Deploys to GitHub Pages** automatically
+
+### Manual Deployment
+If you need to deploy manually:
+```bash
+npm run build
+# Upload the dist/ folder to your hosting provider
+```
+
+## 🎨 Customization
+
+### Theme
+The site uses Material Design 3 dark theme. Customize in `src/styles/theme.js`:
+- Colors, typography, component styles
+- Material Design 3 principles with minimal elevation
+- Dark mode optimized
+
+### Components
+- `HeroSection.jsx` - Homepage hero
+- `PostList.jsx` - Horizontal scrolling post cards
+- `PostRenderer.jsx` - Individual post pages with related posts
+- `FeaturesSection.jsx` - Features showcase
+- `ContactSection.jsx` - Contact information
+
+## 🔧 Technical Details
+
+### Static Site Generation
+- Posts are generated from markdown files at build time
+- Images are organized per post for easy management
+- Sitemap is automatically generated
+- No server-side rendering needed
+
+### Performance
+- Lazy loading for images
+- Optimized builds with Vite
+- Minimal bundle size
+- Fast loading with static hosting
+
+### SEO
+- Automatic sitemap generation
+- Meta tags and descriptions
+- Semantic HTML structure
+- Fast loading times
+
+## 📱 Browser Support
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile responsive design
+- Progressive Web App features
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.

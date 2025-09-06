@@ -76,3 +76,8 @@ export const CACHE_KEYS = {
   POST_CONTENT: 'post_content_',
   POST_METADATA: 'post_metadata_'
 };
+
+// Image path utility - now just returns the original path since we're using custom domain
+export const getImageUrl = (imagePath) => {
+  return imagePath;
+};
