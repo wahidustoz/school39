@@ -14,15 +14,34 @@ function extractMetadata(markdownContent, filePath) {
   const lines = markdownContent.split('\n');
   let title = '';
   let description = '';
-  let date = new Date().toISOString().split('T')[0]; // Default to today
+  let date = new Date().toISOString(); // Default to current date and time
   let thumbnail = '';
 
-  // Try to get file creation date
+  // Check if posts.json already exists and has this post
   try {
-    const stats = fs.statSync(filePath);
-    date = stats.birthtime.toISOString().split('T')[0];
+    const existingPosts = JSON.parse(fs.readFileSync(postsJsonPath, 'utf8'));
+    const slug = path.basename(filePath, '.md');
+    const existingPost = existingPosts.find(p => p.slug === slug);
+    
+    if (existingPost && existingPost.date) {
+      // Keep existing date if post already exists
+      date = existingPost.date;
+      console.log(`📅 Keeping existing date for ${slug}: ${date}`);
+    } else {
+      // For new posts, use file creation date
+      const stats = fs.statSync(filePath);
+      date = stats.birthtime.toISOString();
+      console.log(`🆕 New post ${slug}, using creation date: ${date}`);
+    }
   } catch (error) {
-    console.warn(`Could not get file stats for ${filePath}:`, error.message);
+    console.warn(`Could not read existing posts.json:`, error.message);
+    // Fallback to file creation date
+    try {
+      const stats = fs.statSync(filePath);
+      date = stats.birthtime.toISOString();
+    } catch (statError) {
+      console.warn(`Could not get file stats for ${filePath}:`, statError.message);
+    }
   }
 
   // Extract title from first # heading
