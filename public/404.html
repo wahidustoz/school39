@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <title>39-son maktab</title>
+  <script>
+    // GitHub Pages hack to handle client-side routing
+    // This script takes the current location and redirects to index.html
+    // with the path encoded as a query parameter
+    const path = window.location.pathname.slice(1);
+    const query = window.location.search;
+    
+    if (path) {
+      // Redirect to index.html with the path as a parameter
+      window.location.replace(
+        window.location.origin + '/?p=' + encodeURIComponent(path) + query
+      );
+    } else {
+      // Just redirect to index.html
+      window.location.replace(window.location.origin + '/');
+    }
+  </script>
+</head>
+<body>
+  <!-- This page is used for GitHub Pages client-side routing -->
+  <div>Sahifa yuklanmoqda...</div>
+</body>
+</html>

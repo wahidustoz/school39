@@ -17,7 +17,7 @@ jobs:
     
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      contents: read
+      contents: write  # Changed from read to write to allow committing
       pages: write
       id-token: write
       
@@ -42,6 +42,14 @@ jobs:
       run: |
         npm run generate-posts
         npm run generate-sitemap
+
+    - name: Commit generated files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add public/posts/posts.json || true
+        git diff --staged --quiet || git commit -m "Auto-update posts.json [skip ci]" || true
+        git push || true
 
     - name: Build project
       run: npm run build

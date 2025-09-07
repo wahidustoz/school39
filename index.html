@@ -1,10 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="uz">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/img/gerb.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>39-maktab</title>
+    <title>39-son maktab</title>
+    <script>
+      // GitHub Pages client-side routing handler
+      (function() {
+        const query = window.location.search;
+        if (query.startsWith('?p=')) {
+          const path = decodeURIComponent(query.slice(3));
+          window.history.replaceState(null, null, '/' + path);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

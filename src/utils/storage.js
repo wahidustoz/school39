@@ -77,7 +77,20 @@ export const CACHE_KEYS = {
   POST_METADATA: 'post_metadata_'
 };
 
-// Image path utility - now just returns the original path since we're using custom domain
+// Image path utility - handles both local development and production deployment
 export const getImageUrl = (imagePath) => {
-  return imagePath;
+  if (!imagePath) return '';
+  
+  // If it's already a full URL, return as is
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath;
+  }
+  
+  // If it already starts with /, it's an absolute path from root
+  if (imagePath.startsWith('/')) {
+    return imagePath;
+  }
+  
+  // For relative paths, make them absolute
+  return '/' + imagePath;
 };

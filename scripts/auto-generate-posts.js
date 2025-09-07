@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -9,21 +10,39 @@ const __dirname = path.dirname(__filename);
 const postsDir = path.join(__dirname, '../public/posts');
 const postsJsonPath = path.join(postsDir, 'posts.json');
 
+// Function to get Git commit date for a file
+function getGitCommitDate(filePath) {
+  try {
+    // Get the date of the first commit that added this file
+    const gitCommand = `git log --follow --format=%aI --reverse "${filePath}" | head -1`;
+    const gitDate = execSync(gitCommand, { encoding: 'utf8', cwd: path.dirname(filePath) }).trim();
+    
+    if (gitDate) {
+      return new Date(gitDate).toISOString().split('T')[0];
+    }
+  } catch (error) {
+    console.warn(`Could not get Git commit date for ${filePath}:`, error.message);
+  }
+  
+  // Fallback to file system date
+  try {
+    const stats = fs.statSync(filePath);
+    return stats.birthtime.toISOString().split('T')[0];
+  } catch (error) {
+    console.warn(`Could not get file stats for ${filePath}:`, error.message);
+    return new Date().toISOString().split('T')[0]; // Ultimate fallback to today
+  }
+}
+
 // Function to extract metadata from markdown file
 function extractMetadata(markdownContent, filePath) {
   const lines = markdownContent.split('\n');
   let title = '';
   let description = '';
-  let date = new Date().toISOString().split('T')[0]; // Default to today
   let thumbnail = '';
 
-  // Try to get file creation date
-  try {
-    const stats = fs.statSync(filePath);
-    date = stats.birthtime.toISOString().split('T')[0];
-  } catch (error) {
-    console.warn(`Could not get file stats for ${filePath}:`, error.message);
-  }
+  // Get the commit date for this file
+  const date = getGitCommitDate(filePath);
 
   // Extract title from first # heading
   for (const line of lines) {

@@ -33,5 +33,12 @@
     "description": "Maktabimizda yangi, zamonaviy sport maydoni ochildi. Bu maydon o'quvchilar uchun yaxshi sharoit yaratadi.",
     "date": "2025-09-05",
     "thumbnail": "/posts/yangi-sport-maydoni/images/header.png"
+  },
+  {
+    "slug": "zamonaviy-laboratoriya-ochilishi",
+    "title": "Zamonaviy laboratoriya ochilishi",
+    "description": "Maktabimizda yangi zamonaviy fizika va kimyo laboratoriyasi tantanali ravishda ochildi. Bu laboratoriya o'quvchilarimizning ilmiy bilimlarini amaliy jihatdan mustahkamlash uchun mo'ljallangan.",
+    "date": "2025-09-05",
+    "thumbnail": "/posts/zamonaviy-laboratoriya-ochilishi/images/header.png"
   }
 ]
