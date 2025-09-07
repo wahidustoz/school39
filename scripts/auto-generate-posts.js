@@ -14,11 +14,12 @@ const postsJsonPath = path.join(postsDir, 'posts.json');
 function getGitCommitDate(filePath) {
   try {
     // Get the date of the first commit that added this file
-    const gitCommand = `git log --follow --format=%aI --reverse "${filePath}" | head -1`;
+    const gitCommand = `git log --follow --format="%aI" --reverse "${filePath}" | head -1`;
     const gitDate = execSync(gitCommand, { encoding: 'utf8', cwd: path.dirname(filePath) }).trim();
     
     if (gitDate) {
-      return new Date(gitDate).toISOString().split('T')[0];
+      // Return the full ISO timestamp (includes date, time, and timezone)
+      return new Date(gitDate).toISOString();
     }
   } catch (error) {
     console.warn(`Could not get Git commit date for ${filePath}:`, error.message);
@@ -27,10 +28,10 @@ function getGitCommitDate(filePath) {
   // Fallback to file system date
   try {
     const stats = fs.statSync(filePath);
-    return stats.birthtime.toISOString().split('T')[0];
+    return stats.birthtime.toISOString();
   } catch (error) {
     console.warn(`Could not get file stats for ${filePath}:`, error.message);
-    return new Date().toISOString().split('T')[0]; // Ultimate fallback to today
+    return new Date().toISOString(); // Ultimate fallback to now
   }
 }
 
@@ -41,8 +42,8 @@ function extractMetadata(markdownContent, filePath) {
   let description = '';
   let thumbnail = '';
 
-  // Get the commit date for this file
-  const date = getGitCommitDate(filePath);
+  // Get the commit timestamp for this file (full ISO timestamp)
+  const timestamp = getGitCommitDate(filePath);
 
   // Extract title from first # heading
   for (const line of lines) {
@@ -75,7 +76,7 @@ function extractMetadata(markdownContent, filePath) {
     description = markdownContent.replace(/#+.*\n/g, '').trim().substring(0, 100) + '...';
   }
 
-  return { title, description, date, thumbnail };
+  return { title, description, timestamp, thumbnail };
 }
 
 // Function to scan directory for markdown files
@@ -128,7 +129,8 @@ function generatePostsJson() {
         slug,
         title: metadata.title,
         description: metadata.description,
-        date: metadata.date,
+        timestamp: metadata.timestamp,
+        date: metadata.timestamp.split('T')[0], // Keep date for backward compatibility
         thumbnail: thumbnail || '/img/default-post.jpg' // Default thumbnail
       };
 
@@ -136,8 +138,8 @@ function generatePostsJson() {
       console.log(`✅ Generated post: ${slug}`);
     }
 
-    // Sort posts by date (newest first)
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sort posts by timestamp (newest first)
+    posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     // Write posts.json
     fs.writeFileSync(postsJsonPath, JSON.stringify(posts, null, 2));

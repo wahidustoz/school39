@@ -94,7 +94,9 @@ function PostRenderer() {
     fetchPost();
   }, [slug]);
 
-  const formatDate = (dateString) => {
+  const formatDate = (post) => {
+    // Use timestamp if available, otherwise fall back to date
+    const dateString = post.timestamp || post.date;
     const date = new Date(dateString);
     const months = [
       'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
@@ -104,8 +106,10 @@ function PostRenderer() {
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
     
-    return `${day} ${month}, ${year}`;
+    return `${day} ${month}, ${year} - ${hours}:${minutes}`;
   };
 
   if (loading) {
@@ -177,7 +181,7 @@ function PostRenderer() {
             fontSize: '0.875rem'
           }}
         >
-          {formatDate(post.date)}
+          {formatDate(post)}
         </Typography>
       </Box>
       

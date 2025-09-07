@@ -30,8 +30,8 @@ function PostList() {
         
         if (cachedPosts) {
           console.log('📦 Posts loaded from local storage');
-          // Ensure cached posts are also sorted by date (newest first)
-          const sortedCachedPosts = cachedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+          // Ensure cached posts are also sorted by timestamp (newest first)
+          const sortedCachedPosts = cachedPosts.sort((a, b) => new Date(b.timestamp || b.date) - new Date(a.timestamp || a.date));
           setPosts(sortedCachedPosts);
           setLoading(false);
           return;
@@ -45,9 +45,9 @@ function PostList() {
         }
         
         const data = await response.json();
-        // Sort posts by date (newest first) and add base path to image URLs
+        // Sort posts by timestamp (newest first) and add base path to image URLs
         const postsWithFixedImages = data
-          .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort newest first
+          .sort((a, b) => new Date(b.timestamp || b.date) - new Date(a.timestamp || a.date)) // Sort newest first, fallback to date
           .map(post => ({
             ...post,
             thumbnail: getImageUrl(post.thumbnail)
@@ -68,7 +68,9 @@ function PostList() {
     loadPosts();
   }, []);
 
-  const formatDate = (dateString) => {
+  const formatDate = (post) => {
+    // Use timestamp if available, otherwise fall back to date
+    const dateString = post.timestamp || post.date;
     const date = new Date(dateString);
     const months = [
       'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
@@ -78,8 +80,10 @@ function PostList() {
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
     
-    return `${day} ${month}, ${year}`;
+    return `${day} ${month}, ${year} - ${hours}:${minutes}`;
   };
 
   const handleScroll = (direction) => {
@@ -317,7 +321,7 @@ function PostList() {
                       mt: 1
                     }}
                   >
-                    {formatDate(post.date)}
+                    {formatDate(post)}
                   </Typography>
                 </CardContent>
               </Card>
