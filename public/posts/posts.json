@@ -1,44 +1,44 @@
 [
   {
-    "slug": "bitiruv-marosimi-2025",
+    "slug": "Bitiruv-marosimi-2025",
     "title": "2025 yil bitiruv marosimi",
     "description": "Bu yilgi bitiruv marosimi maktabimizda katta bayram sifatida nishonlandi. Barcha bitiruvchilar va ularning oilalari ishtirok etdi.",
-    "date": "2025-09-05",
-    "thumbnail": "/posts/bitiruv-marosimi-2025/images/header.png"
+    "date": "2025-09-07",
+    "thumbnail": "/img/Bitiruv-marosimi-2025.png"
   },
   {
-    "slug": "informatika-darslari",
+    "slug": "Informatika-darslari",
     "title": "Informatika darslari yangicha uslubda",
     "description": "Maktabimizda informatika darslari zamonaviy texnologiyalar bilan yangilandi. O'quvchilar endi eng so'nggi dasturlash tillarini o'rganishadi.",
-    "date": "2025-09-05",
-    "thumbnail": "/posts/informatika-darslari/images/header.png"
+    "date": "2025-09-07",
+    "thumbnail": "/img/Informatika-darslari.png"
   },
   {
-    "slug": "tadbir-haqida",
+    "slug": "Tadbir-haqida",
     "title": "Maktab tadbiri bo'lib o'tdi",
     "description": "Bu hafta maktabimizda katta tadbir bo'lib o'tdi. Barcha o'quvchilar va o'qituvchilar ishtirok etdi.",
-    "date": "2025-09-05",
-    "thumbnail": "/posts/tadbir-haqida/images/header.png"
+    "date": "2025-09-07",
+    "thumbnail": "/img/Tadbir-haqida.png"
   },
   {
-    "slug": "yangi-kutubxona",
+    "slug": "Yangi-kutubxona",
     "title": "Yangi kutubxona ochildi",
     "description": "Maktabimizda yangi, zamonaviy kutubxona ochildi. Bu kutubxona o'quvchilar uchun keng imkoniyatlar yaratadi.",
-    "date": "2025-09-05",
-    "thumbnail": "/posts/yangi-kutubxona/images/header.png"
+    "date": "2025-09-07",
+    "thumbnail": "/img/Yangi-kutubxona.png"
   },
   {
-    "slug": "yangi-sport-maydoni",
+    "slug": "Yangi-sport-maydoni",
     "title": "Yangi sport maydoni ochildi",
     "description": "Maktabimizda yangi, zamonaviy sport maydoni ochildi. Bu maydon o'quvchilar uchun yaxshi sharoit yaratadi.",
-    "date": "2025-09-05",
-    "thumbnail": "/posts/yangi-sport-maydoni/images/header.png"
+    "date": "2025-09-07",
+    "thumbnail": "/img/Yangi-sport-maydoni.png"
   },
   {
     "slug": "zamonaviy-laboratoriya-ochilishi",
     "title": "Zamonaviy laboratoriya ochilishi",
     "description": "Maktabimizda yangi zamonaviy fizika va kimyo laboratoriyasi tantanali ravishda ochildi. Bu laboratoriya o'quvchilarimizning ilmiy bilimlarini amaliy jihatdan mustahkamlash uchun mo'ljallangan.",
-    "date": "2025-09-05",
+    "date": "2025-09-07",
     "thumbnail": "/posts/zamonaviy-laboratoriya-ochilishi/images/header.png"
   }
 ]
