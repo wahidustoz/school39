@@ -35,6 +35,13 @@
     "thumbnail": "/img/Yangi-sport-maydoni.png"
   },
   {
+    "slug": "this-is-a-test-post",
+    "title": "This is a test post",
+    "description": "```cs",
+    "date": "2025-09-07",
+    "thumbnail": "/img/default-post.jpg"
+  },
+  {
     "slug": "zamonaviy-laboratoriya-ochilishi",
     "title": "Zamonaviy laboratoriya ochilishi",
     "description": "Maktabimizda yangi zamonaviy fizika va kimyo laboratoriyasi tantanali ravishda ochildi. Bu laboratoriya o'quvchilarimizning ilmiy bilimlarini amaliy jihatdan mustahkamlash uchun mo'ljallangan.",
